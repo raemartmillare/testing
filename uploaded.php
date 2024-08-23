@@ -9,14 +9,14 @@ if (!is_dir($upload_directory)) {
 }
 
 // Check if a file was uploaded
-if (isset($_FILES['image_file']) && $_FILES['image_file']['error'] === UPLOAD_ERR_OK) {
-    $uploaded_audio_file = $upload_directory . basename($_FILES['image_file']['name']);
-    $temporary_file = $_FILES['image_file']['tmp_name'];
+if (isset($_FILES['video_file']) && $_FILES['video_file']['error'] === UPLOAD_ERR_OK) {
+    $uploaded_audio_file = $upload_directory . basename($_FILES['video_file']['name']);
+    $temporary_file = $_FILES['video_file']['tmp_name'];
 
     // Move the uploaded file
     if (move_uploaded_file($temporary_file, $uploaded_audio_file)) {
         echo 'File uploaded successfully.<br>';
-        echo '<a href="' . $relative_path . basename($_FILES['image_file']['name']) . '" target="_blank">Click to view Image File</a>';
+        echo '<a href="' . $relative_path . basename($_FILES['video_file']['name']) . '" target="_blank">Click to watch the video File</a>';
     } else {
         echo 'Failed to upload file';
     }
