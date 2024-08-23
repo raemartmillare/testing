@@ -5,7 +5,6 @@
 // Supply the missing code
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: index.php');
-    exit();
 }
 
 // Supply the missing code
@@ -13,8 +12,6 @@ $complete_name = $_POST['complete_name'];
 $email = $_POST['email'];
 $birthdate = $_POST['birthdate'];
 $contact_number = $_POST['contact_number'];
-
-
 ?>
 <html>
 <head>
@@ -24,7 +21,8 @@ $contact_number = $_POST['contact_number'];
 </head>
 <body>
 <section class="section">
-    <h1 class="title">Instructions</h1>
+    <h1 class="title"> Hello <?php echo $complete_name; ?>, please read the instructions first</h1>
+    
     <h2 class="subtitle">
         This is the IPT10 PHP Quiz Web Application Laboratory Activity.
     </h2>
@@ -37,6 +35,7 @@ $contact_number = $_POST['contact_number'];
         <input type="hidden" name="contact_number" value="<?php echo $contact_number; ?>" />
 
         <!-- Display the instruction -->
+        <h2 class="subtitle">Instructions</h2>
         <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
         </p>
@@ -58,9 +57,24 @@ $contact_number = $_POST['contact_number'];
         </div>
 
         <!-- Start Quiz button -->
-        <button type="submit" class="button is-link">Start Quiz</button>
+        <button type="submit" class="button is-link" id="submit_btn" disabled>Start Quiz</button>
     </form>
+
 </section>
+        
+<script>
+    const checkbox = document.getElementsByName('agree')[0];
+    const submit_btn = document.getElementById('submit_btn');
+
+    function getCheckboxState() {
+        if (checkbox.checked) {
+            submit_btn.disabled = false;
+        } else {
+            submit_btn.disabled = true;
+        }
+    }
+    checkbox.addEventListener('change', getCheckboxState);
+</script>
 
 </body>
 </html>
