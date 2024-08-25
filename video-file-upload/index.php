@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://assets.ubuntu.com/v1/vanilla-framework-version-4.15.0.min.css" />   
 </head>
 
-<body style="background-color: pink;">
+<body style="background-color: grey;">
 <div class="u-fixed-width">
   <div class="p-logo-section">
     <div class="p-logo-section__items">
@@ -17,9 +17,11 @@
   </div>
 </div>
 
-<div class="row--50-50 grid-demo">
+<br>
+
+<div class="row--50-50 grid-demo" style="background-color: red;">
   <div class="col">
-    <h4>File Upload</h4>
+    <h1>File Upload</h1>
 
     <form action="uploaded.php" method="post" enctype="multipart/form-data">
         <div class="p-card">
@@ -38,7 +40,7 @@
 
     </div>
   <div class="col">
-  <img class="p-logo-section__logo" src="https://www.auf.edu.ph/home/images/mascot/CCS.png" alt="College of Computing Studies">
+  <img class="p-logo-section__logo" src="Screenshot 2024-08-24 122724.png" alt="College of Computing Studies">
   </div>
 </div>
 

@@ -1,35 +1,25 @@
 <?php
 
-require "helpers.php";
-
-# from the $_SERVER global variable, check if the HTTP method used is POST, if its not POST, redirect to the index.php page
-# Reference: https://www.php.net/manual/en/reserved.variables.server.php
-
-// Supply the missing code
+# Check if the HTTP method is POST; otherwise, redirect to the index.php page
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: index.php');
+    exit();
 }
 
-// Supply the missing code
-$complete_name = $_POST['complete_name'];
-$email = $_POST['email'];
-$birthdate = $_POST['birthdate'];
-$contact_number = $_POST['contact_number'];
-$agree = $_POST['agree'];
+# Retrieve form data from POST request
+$complete_name = $_POST['complete_name'] ?? '';
+$email = $_POST['email'] ?? '';
+$birthdate = $_POST['birthdate'] ?? '';
+$contact_number = $_POST['contact_number'] ?? '';
+$agree = $_POST['agree'] ?? '';
 
-$answer = $_POST['answer'] ?? null;
-$answers = $_POST['answers'] ?? '';
+# Load the JSON file and convert it into a PHP array
+$json_file = file_get_contents('triviaquiz.json');
+$data = json_decode($json_file, true);
 
-$questions = retrieve_questions();
-$total_questions = count($questions);
-
-$current_question = get_current_question($answers);
-$current_question_number = get_current_question_number($answers);
-
-$target = 'quiz.php';
-if ($current_question_number >= MAX_QUESTION_NUMBER) {
-    $target = 'result.php';
-}
+# Extract questions and correct answers from JSON
+$questions = $data['questions'];
+$correct_answers = $data['answers'];
 
 ?>
 <html>
@@ -40,51 +30,40 @@ if ($current_question_number >= MAX_QUESTION_NUMBER) {
 </head>
 <body>
 <section class="section">
-    <h1 class="title">QUESTIONS</h1>
+    <h1 class="title">Trivia Quiz</h1>
+    <h2 class="subtitle">Answer all the questions below:</h2>
 
-    <!-- Supply the correct HTTP method and target form handler resource -->
-
+    <!-- Start the form -->
     <form method="POST" action="result.php">
         <input type="hidden" name="complete_name" value="<?php echo $complete_name; ?>" />
         <input type="hidden" name="email" value="<?php echo $email; ?>" />
         <input type="hidden" name="birthdate" value="<?php echo $birthdate; ?>" />
         <input type="hidden" name="contact_number" value="<?php echo $contact_number; ?>" />
         <input type="hidden" name="agree" value="<?php echo $agree; ?>" />
-        <input type="hidden" name="answers" value="<?php echo $answers; ?>"/>
- 
-        <!-- Display the questions -->
+
+        <!-- Loop through the questions array and display them -->
         <?php foreach ($questions as $index => $question): ?>
             <div class="box">
-                <h2 class="subtitle">Question <?php echo $index + 1; ?>:</h2>
-                <p><?php echo ($question['question']); ?></p>
+                <h3 class="title is-4">Question <?php echo $index + 1; ?></h3>
+                <p><?php echo $question['question']; ?></p>
 
-                <!-- Display the options -->
-                <?php 
-                $options = $question['options'];
-                foreach ($options as $option): ?>
+                <!-- Loop through the options for this question -->
+                <?php foreach ($question['options'] as $option): ?>
                     <div class="field">
                         <div class="control">
                             <label class="radio">
-                                <input type="radio"
-                                    name="answers[<?php echo $index; ?>]"
-                                    value="<?php echo $option['key']; ?>" />
-                                    <?php echo (isset($answers[$index]) && $answers[$index] === $option['key']) ? 'checked' : ''; ?>
-                                    <?php echo $option['value']; ?>
+                                <input type="radio" name="answers[<?php echo $index; ?>]" value="<?php echo $option['key']; ?>" required />
+                                <?php echo $option['value']; ?>
                             </label>
                         </div>
                     </div>
                 <?php endforeach; ?>
-                <!-- Options END -->
-
             </div>
         <?php endforeach; ?>
-        <!-- Ouestions END -->
 
-        <!-- Start Quiz button -->
-        <button type="submit" class="button">Submit</button>
+        <!-- Submit button -->
+        <button type="submit" class="button is-primary">Submit</button>
     </form>
 </section>
-
-
 </body>
 </html>
